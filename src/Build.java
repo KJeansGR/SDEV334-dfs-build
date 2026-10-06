@@ -2,6 +2,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 
 public class Build {
@@ -23,7 +24,28 @@ public class Build {
    * @return the longest reachable word, or an empty string if the vertex is null
    */
   public static String longestWord(Vertex<String> vertex) {
-    return "";
+    if(vertex == null){
+      return "";
+    }
+    Set<Vertex<String>>visited = new HashSet<>();
+    Stack<Vertex<String>> stack = new Stack<>();
+    String max = vertex.data;
+    visited.add(vertex);
+    stack.push(vertex);
+
+    while(!stack.isEmpty()){
+      Vertex<String> cur = stack.pop();
+      visited.add(cur);
+
+      for(Vertex<String> v : cur.neighbors){
+        if(!visited.contains(v)){
+        stack.push(v);
+        }
+      }
+      max = max.length() < cur.data.length() ? cur.data : max;
+    }
+
+    return max;
   }
 
   /**
